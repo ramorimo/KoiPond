@@ -5,22 +5,25 @@ function get_coordinate(name, coordinate){
 }
 
 function move_koi(){
-    var current_leaf = "rect" + sequences[current_sequence][0]
     var mid_leaf = "rect" + sequences[current_sequence][1]
     var new_leaf = "rect" + sequences[current_sequence][2]
-    var new_cx = get_coordinate(mid_leaf, "x") - get_coordinate(current_leaf, "x")
-    var new_cy = get_coordinate(mid_leaf, "y") - get_coordinate(current_leaf, "y")
-    var new_cx2 = get_coordinate(new_leaf, "x") - get_coordinate(current_leaf, "x")
-    var new_cy2 = get_coordinate(new_leaf, "y") - get_coordinate(current_leaf, "y")
-    d3.selectAll("#koi")
+
+    var new_cx1 = get_coordinate(mid_leaf, "x") 
+    var new_cy1 = get_coordinate(mid_leaf, "y")
+    var new_cx2 = get_coordinate(new_leaf, "x")
+    var new_cy2 = get_coordinate(new_leaf, "y")
+    
+    d3.select("#koi")
         .transition()
         .duration(500)
         .delay(100)
-        .attr("transform", `translate(${new_cx},${new_cy})`)
+        .attr("cx",new_cx1)
+        .attr("cy",new_cy1)
         .transition()
         .duration(500)
         .delay(100)
-        .attr("transform", `translate(${new_cx2},${new_cy2})`)
+        .attr("cx",new_cx2)
+        .attr("cy",new_cy2)
     
     if(current_sequence == sequences.length-1){
         current_sequence=0;
@@ -92,10 +95,7 @@ function create_koi(pesce){
 }
 
 function prova(){
-        
-
-    
-    d3.json("data/koi.json")
+    d3.json("/data/koi.json")
         .then(function(pesce){
             sequences = pesce.koi[0].sequences
             current_sequence = 0
