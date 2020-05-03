@@ -5,13 +5,16 @@ function get_coordinate(name, coordinate){
 }
 
 function move_koi(){
-    var mid_leaf = "rect" + sequences[current_sequence][1]
-    var new_leaf = "rect" + sequences[current_sequence][2]
+    var mid_leaf1 = "rect" + sequences[current_sequence][1]
+    var mid_leaf2 = "rect" + sequences[current_sequence][2]
+    var new_leaf = "rect" + sequences[current_sequence][3]
 
-    var new_cx1 = get_coordinate(mid_leaf, "x") 
-    var new_cy1 = get_coordinate(mid_leaf, "y")
-    var new_cx2 = get_coordinate(new_leaf, "x")
-    var new_cy2 = get_coordinate(new_leaf, "y")
+    var new_cx1 = get_coordinate(mid_leaf1, "x") 
+    var new_cy1 = get_coordinate(mid_leaf1, "y")
+    var new_cx2 = get_coordinate(mid_leaf2, "x")
+    var new_cy2 = get_coordinate(mid_leaf2, "y")
+    var new_cx3 = get_coordinate(new_leaf, "x")
+    var new_cy3 = get_coordinate(new_leaf, "y")
     
     d3.select("#koi")
         .transition()
@@ -24,6 +27,11 @@ function move_koi(){
         .delay(100)
         .attr("cx",new_cx2)
         .attr("cy",new_cy2)
+        .transition()
+        .duration(500)
+        .delay(100)
+        .attr("cx",new_cx3)
+        .attr("cy",new_cy3)
     
     if(current_sequence == sequences.length-1){
         current_sequence=0;
