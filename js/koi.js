@@ -1,17 +1,33 @@
 function get_coordinate(name, coordinate){
     var p = d3.select(`#${name}`);
-    var c = parseFloat(p.attr(coordinate)) + parseFloat(p.attr("width") / 2)
+    var c = parseFloat(p.attr(coordinate)) + (parseFloat(p.attr("width") / 2))
     return c
 }
 
-function new_leaf_center(new_leaf, old_leaf){
-    new_cx = get_coordinate(new_leaf, "x") - get_coordinate(old_leaf, "x")
-    new_cy = get_coordinate(new_leaf, "y") - get_coordinate(old_leaf, "y")
+function move_koi(){
+    var mid_leaf = "rect" + sequences[current_sequence][1]
+    var new_leaf = "rect" + sequences[current_sequence][2]
+    var new_cx = get_coordinate(mid_leaf, "x") - get_coordinate(current_leaf, "x")
+    var new_cy = get_coordinate(mid_leaf, "y") - get_coordinate(current_leaf, "y")
+    var new_cx2 = get_coordinate(new_leaf, "x") - get_coordinate(current_leaf, "x")
+    var new_cy2 = get_coordinate(new_leaf, "y") - get_coordinate(current_leaf, "y")
     d3.selectAll("#koi")
         .transition()
         .duration(500)
         .delay(100)
         .attr("transform", `translate(${new_cx},${new_cy})`)
+        .transition()
+        .duration(500)
+        .delay(100)
+        .attr("transform", `translate(${new_cx2},${new_cy2})`)
+    
+    if(current_sequence == sequences.length-1){
+        current_sequence=0;
+    }else{
+        current_sequence++;
+    }
+    current_leaf = "rect" + sequences[current_sequence][0]
+
 }
 
 function create_leaves(dataset) {
@@ -40,9 +56,9 @@ function create_leaves(dataset) {
             deltaX = current.attr("x") - d3.event.x;
             deltaY = current.attr("y") - d3.event.y;
 
-            if(d3.select(this).attr("id") == "rect1"){
-                new_leaf_center("rect2", "rect1")
-                correct_leaf = "rect2"
+            if(d3.select(this).attr("id") == current_leaf){
+                console.log(sequences[current_sequence])
+                move_koi()
             }
         })
         .on("drag", function () {
@@ -83,7 +99,9 @@ function prova(){
     
     d3.json("data/koi.json")
         .then(function(pesce){
-            console.log(pesce.koi)
+            sequences = pesce.koi[0].sequences
+            current_sequence = 0
+            current_leaf = pesce.koi[0].start
             //Creazione delle foglie trascinabili
             create_leaves(pesce.leaves)
             //Creazione del pesce
