@@ -1,8 +1,8 @@
 function creazione_foglie() {
     var dataset = [
-        {"x": 50, "y": 100, "w": 40, "nome": "1"},
-        {"x": 300, "y": 110, "w": 40, "nome": "2"},
-        {"x": 140, "y": 120, "w": 40, "nome": "3"}
+        {"x": 50, "y": 100, "w": 40, "id": 1},
+        {"x": 300, "y": 110, "w": 40, "id": 2},
+        {"x": 140, "y": 120, "w": 40, "id": 3}
     ]
 
     var svg = d3.select("svg");
@@ -21,7 +21,7 @@ function creazione_foglie() {
         .attr("fill", "red")
         .attr("stroke-width", 1)
         .attr("stroke", 1)
-        .attr("nome", function(d) { return d.nome })
+        .attr("id", function(d) { return "rect" +  d.id })
 
     var dragHandler = d3.drag()
         .on("start", function () {
@@ -39,7 +39,37 @@ function creazione_foglie() {
 }
 
 function creazione_pesce(){
+    var pesce = [
+        {
+            nome: 1,
+            r: 20,
+            x: 50,
+            y: 50
+        }
+    ]
+
+    var svg = d3.select("svg");
     
+    svg.selectAll("circle")
+        .data(pesce)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) { 
+            var p = d3.select('#rect' + d.nome);
+            var cx = parseFloat(p.attr("x")) + parseFloat(p.attr("width") / 2)
+            return  cx
+        })
+        .attr("cy", function(d) { 
+            var p = d3.select('#rect' + d.nome);
+            var cy = parseFloat(p.attr("y")) + parseFloat(p.attr("width") / 2)
+            return cy
+        })
+        .attr("r", function(d) { return d.r})
+        .attr("fill", "blue")
+        .attr("stroke-width", 1)
+        .attr("stroke", 1)
+
+        d3.selectAll("rect").raise()
 }
 
 function prova(){
