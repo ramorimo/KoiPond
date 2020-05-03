@@ -14,12 +14,7 @@ function new_leaf_center(new_leaf, old_leaf){
         .attr("transform", `translate(${new_cx},${new_cy})`)
 }
 
-function create_leaves() {
-    var dataset = [
-        {"x": 50, "y": 100, "w": 40, "id": 1},
-        {"x": 300, "y": 110, "w": 40, "id": 2},
-        {"x": 140, "y": 120, "w": 40, "id": 3}
-    ]
+function create_leaves(dataset) {
 
     var svg = d3.select("svg");
 
@@ -31,13 +26,13 @@ function create_leaves() {
         .enter()
         .append("rect")
         .attr("x", function() { return scale(Math.random())} )
-        .attr("y", function(d) { return scale(Math.random())} )
+        .attr("y", function() { return scale(Math.random())} )
         .attr("width", function(d) { return d.w})
         .attr("height", function(d) { return d.w})
         .attr("fill", "red")
         .attr("stroke-width", 1)
         .attr("stroke", 1)
-        .attr("id", function(d) { return "rect" +  d.id })
+        .attr("id", function(d) { return d.id })
 
     var dragHandler = d3.drag()
         .on("start", function () {
@@ -59,16 +54,7 @@ function create_leaves() {
     dragHandler(svg.selectAll("rect"));
 }
 
-function create_koi(){
-    var pesce = [
-        {
-            name: "rect1",
-            r: 20,
-            x: 50,
-            y: 50
-        }
-    ]
-
+function create_koi(pesce){
     var svg = d3.select("svg");
     
     svg.selectAll("circle")
@@ -76,10 +62,10 @@ function create_koi(){
         .enter()
         .append("circle")
         .attr("cx", function(d) { 
-            return get_coordinate(d.name, "x")
+            return get_coordinate(d.start, "x")
         })
         .attr("cy", function(d) { 
-            return get_coordinate(d.name, "y")
+            return get_coordinate(d.start, "y")
         })
         .attr("r", function(d) { return d.r})
         .attr("fill", "blue")
@@ -94,10 +80,14 @@ function create_koi(){
 function prova(){
         
 
-    //Creazione delle foglie trascinabili
-    create_leaves()
-
-    //Creazione del pesce
-    create_koi()
+    
+    d3.json("data/koi.json")
+        .then(function(pesce){
+            console.log(pesce.koi)
+            //Creazione delle foglie trascinabili
+            create_leaves(pesce.leaves)
+            //Creazione del pesce
+            create_koi(pesce.koi)
+        })
     
 }
