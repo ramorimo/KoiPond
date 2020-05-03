@@ -1,4 +1,10 @@
 function creazione_foglie() {
+    var dataset = [
+        {"x": 50, "y": 100, "w": 40},
+        {"x": 300, "y": 110, "w": 40},
+        {"x": 140, "y": 120, "w": 40}
+    ]
+
     var svg = d3.select("svg");
 
     svg.selectAll("rect")
@@ -28,12 +34,17 @@ function creazione_foglie() {
     dragHandler(svg.selectAll("rect"));
 }
 
-function prova(){
-        var dataset = [
-        {"x": 50, "y": 100, "w": 40},
-        {"x": 300, "y": 110, "w": 40},
-        {"x": 140, "y": 120, "w": 40}
-    ]
+function creazione_pesce(){
+    
+}
 
+function prova(){
+        
+
+    //Creazione delle foglie trascinabili
+    creazione_foglie()
+
+    //Creazione del pesce
+    creazione_pesce()
     
 }
