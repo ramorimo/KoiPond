@@ -1,4 +1,20 @@
-function creazione_foglie() {
+function get_coordinate(name, coordinate){
+    var p = d3.select(`#${name}`);
+    var c = parseFloat(p.attr(coordinate)) + parseFloat(p.attr("width") / 2)
+    return c
+}
+
+function new_leaf_center(new_leaf, old_leaf){
+    new_cx = get_coordinate(new_leaf, "x") - get_coordinate(old_leaf, "x")
+    new_cy = get_coordinate(new_leaf, "y") - get_coordinate(old_leaf, "y")
+    d3.selectAll("#koi")
+        .transition()
+        .duration(500)
+        .delay(100)
+        .attr("transform", `translate(${new_cx},${new_cy})`)
+}
+
+function create_leaves() {
     var dataset = [
         {"x": 50, "y": 100, "w": 40, "id": 1},
         {"x": 300, "y": 110, "w": 40, "id": 2},
@@ -28,6 +44,11 @@ function creazione_foglie() {
             var current = d3.select(this);
             deltaX = current.attr("x") - d3.event.x;
             deltaY = current.attr("y") - d3.event.y;
+
+            if(d3.select(this).attr("id") == "rect1"){
+                new_leaf_center("rect2", "rect1")
+                correct_leaf = "rect2"
+            }
         })
         .on("drag", function () {
             d3.select(this)
@@ -38,10 +59,10 @@ function creazione_foglie() {
     dragHandler(svg.selectAll("rect"));
 }
 
-function creazione_pesce(){
+function create_koi(){
     var pesce = [
         {
-            nome: 1,
+            name: "rect1",
             r: 20,
             x: 50,
             y: 50
@@ -55,30 +76,28 @@ function creazione_pesce(){
         .enter()
         .append("circle")
         .attr("cx", function(d) { 
-            var p = d3.select('#rect' + d.nome);
-            var cx = parseFloat(p.attr("x")) + parseFloat(p.attr("width") / 2)
-            return  cx
+            return get_coordinate(d.name, "x")
         })
         .attr("cy", function(d) { 
-            var p = d3.select('#rect' + d.nome);
-            var cy = parseFloat(p.attr("y")) + parseFloat(p.attr("width") / 2)
-            return cy
+            return get_coordinate(d.name, "y")
         })
         .attr("r", function(d) { return d.r})
         .attr("fill", "blue")
         .attr("stroke-width", 1)
         .attr("stroke", 1)
+        .attr("id", "koi")
 
         d3.selectAll("rect").raise()
+        d3.selectAll("#rect1").attr("fill", "blue")
 }
 
 function prova(){
         
 
     //Creazione delle foglie trascinabili
-    creazione_foglie()
+    create_leaves()
 
     //Creazione del pesce
-    creazione_pesce()
+    create_koi()
     
 }
