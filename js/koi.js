@@ -71,9 +71,25 @@ function create_leaves(dataset) {
             }
         })
         .on("drag", function () {
+            var x = d3.event.x + deltaX
+            var y = d3.event.y + deltaY
+            var w = parseFloat(d3.select(this).attr("width"));
+            var width = parseFloat(d3.select("svg").attr("width"))
+            if(x < 0){
+                x = 0
+            }else if(x + w  > width){
+                x = width - w
+            }
+
+            if(y < 0){
+                y = 0
+            }else if(y + w  > width){
+                y = width - w
+            }
+
             d3.select(this)
-                .attr("x", d3.event.x + deltaX)
-                .attr("y", d3.event.y + deltaY);
+                .attr("x", x)
+                .attr("y", y);
         });
     
     dragHandler(svg.selectAll("rect"));
