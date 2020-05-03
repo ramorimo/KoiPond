@@ -45,7 +45,8 @@ function create_leaves(dataset) {
 
     var scale = d3.scaleLinear()
     scale.domain([0,1])
-    scale.range([0, 700 - 40])
+    scale.range([0, svg.attr("width") - dataset[0].w])
+    
     svg.selectAll("rect")
         .data(dataset)
         .enter()
@@ -119,6 +120,11 @@ function create_koi(pesce){
 }
 
 function prova(){
+    d3.select("body").append("svg")
+        .attr("width", 700)
+        .attr("height", 700)
+        .attr("style", "background-color:skyblue")
+
     d3.json("/data/koi.json")
         .then(function(pesce){
             sequences = pesce.koi[0].sequences
