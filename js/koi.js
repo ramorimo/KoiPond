@@ -5,6 +5,7 @@ function get_coordinate(name, coordinate){
 }
 
 function move_koi(){
+    var current_leaf = "rect" + sequences[current_sequence][0]
     var mid_leaf = "rect" + sequences[current_sequence][1]
     var new_leaf = "rect" + sequences[current_sequence][2]
     var new_cx = get_coordinate(mid_leaf, "x") - get_coordinate(current_leaf, "x")
@@ -26,12 +27,9 @@ function move_koi(){
     }else{
         current_sequence++;
     }
-    current_leaf = "rect" + sequences[current_sequence][0]
-
 }
 
 function create_leaves(dataset) {
-
     var svg = d3.select("svg");
 
     var scale = d3.scaleLinear()
@@ -55,7 +53,7 @@ function create_leaves(dataset) {
             var current = d3.select(this);
             deltaX = current.attr("x") - d3.event.x;
             deltaY = current.attr("y") - d3.event.y;
-
+            var current_leaf = "rect" + sequences[current_sequence][0]
             if(d3.select(this).attr("id") == current_leaf){
                 console.log(sequences[current_sequence])
                 move_koi()
@@ -101,7 +99,6 @@ function prova(){
         .then(function(pesce){
             sequences = pesce.koi[0].sequences
             current_sequence = 0
-            current_leaf = pesce.koi[0].start
             //Creazione delle foglie trascinabili
             create_leaves(pesce.leaves)
             //Creazione del pesce
