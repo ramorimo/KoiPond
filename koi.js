@@ -1,23 +1,27 @@
 function creazione_foglie() {
     var dataset = [
-        {"x": 50, "y": 100, "w": 40},
-        {"x": 300, "y": 110, "w": 40},
-        {"x": 140, "y": 120, "w": 40}
+        {"x": 50, "y": 100, "w": 40, "nome": "1"},
+        {"x": 300, "y": 110, "w": 40, "nome": "2"},
+        {"x": 140, "y": 120, "w": 40, "nome": "3"}
     ]
 
     var svg = d3.select("svg");
 
+    var scale = d3.scaleLinear()
+    scale.domain([0,1])
+    scale.range([0, 700 - 40])
     svg.selectAll("rect")
         .data(dataset)
         .enter()
         .append("rect")
-        .attr("x", function(d) { return d.x} )
-        .attr("y", function(d) { return d.y} )
+        .attr("x", function() { return scale(Math.random())} )
+        .attr("y", function(d) { return scale(Math.random())} )
         .attr("width", function(d) { return d.w})
         .attr("height", function(d) { return d.w})
         .attr("fill", "red")
         .attr("stroke-width", 1)
         .attr("stroke", 1)
+        .attr("nome", function(d) { return d.nome })
 
     var dragHandler = d3.drag()
         .on("start", function () {
