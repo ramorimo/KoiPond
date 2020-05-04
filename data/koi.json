@@ -1,8 +1,8 @@
 {
     "koi":[
       {
-        "start": "rect1",
-        "r": 20,
+        "start": "leaf1",
+        "w": 40,
         "sequences": 
         [
           [1,2,3,4],
@@ -14,14 +14,14 @@
       }],
       "leaves":
       [
-          {"w": 40, "id": "rect1"},
-          {"w": 40, "id": "rect2"},
-          {"w": 40, "id": "rect3"},
-          {"w": 40, "id": "rect4"},
-          {"w": 40, "id": "rect5"},
-          {"w": 40, "id": "rect6"},
-          {"w": 40, "id": "rect7"},
-          {"w": 40, "id": "rect8"},
-          {"w": 40, "id": "rect9"}
+          {"w": 80, "id": "leaf1"},
+          {"w": 80, "id": "leaf2"},
+          {"w": 80, "id": "leaf3"},
+          {"w": 80, "id": "leaf4"},
+          {"w": 80, "id": "leaf5"},
+          {"w": 80, "id": "leaf6"},
+          {"w": 80, "id": "leaf7"},
+          {"w": 80, "id": "leaf8"},
+          {"w": 80, "id": "leaf9"}
       ]
   }

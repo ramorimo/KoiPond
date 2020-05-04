@@ -5,9 +5,9 @@ function get_coordinate(name, coordinate){
 }
 
 function move_koi(){
-    var mid_leaf1 = "rect" + sequences[current_sequence][1]
-    var mid_leaf2 = "rect" + sequences[current_sequence][2]
-    var new_leaf = "rect" + sequences[current_sequence][3]
+    var mid_leaf1 = "leaf" + sequences[current_sequence][1]
+    var mid_leaf2 = "leaf" + sequences[current_sequence][2]
+    var new_leaf = "leaf" + sequences[current_sequence][3]
 
     var new_cx1 = get_coordinate(mid_leaf1, "x") 
     var new_cy1 = get_coordinate(mid_leaf1, "y")
@@ -47,18 +47,18 @@ function create_leaves(dataset) {
     scale.domain([0,1])
     scale.range([0, svg.attr("width") - dataset[0].w])
     
-    svg.selectAll("rect")
+    svg.selectAll(".leaf")
         .data(dataset)
         .enter()
-        .append("rect")
+        .append("svg")
         .attr("x", function() { return scale(Math.random())} )
         .attr("y", function() { return scale(Math.random())} )
+        .attr("id", function(d) { return d.id })
         .attr("width", function(d) { return d.w})
         .attr("height", function(d) { return d.w})
-        .attr("fill", "red")
-        .attr("stroke-width", 1)
-        .attr("stroke", 1)
-        .attr("id", function(d) { return d.id })
+        .append("path")
+        .attr("class", "leaf")
+        .attr("d", "M10.306,52.037C7.191,41.872,3.188,32.782,8.245,20.926,17.655-1.14,41.66,2.046,47.407,2.259S51.53,29.222,51.53,29.222C59.889,13.884,65.958,8.481,65.958,8.481c12.858,4.888,19.7,36.493,8.245,49.778S41.053,73.882,28.857,72.778,0,79,0,79c1.013-.757,3.661-4.761,6.184-8.3C11.359,63.449,10.5,52.673,10.306,52.037ZM48,37c1.839-1.616-6.222,5.853-17,16-5.62,5.29-11.85,11-18,17M40,31s-3.111-7.8-5-13M31,37L23,26M20,53l-2-4M32,62l11,3m1-18,18,4")
 
     var dragHandler = d3.drag()
         .on("start", function () {
@@ -93,7 +93,7 @@ function create_leaves(dataset) {
                 .attr("y", y);
         });
     
-    dragHandler(svg.selectAll("rect"));
+    dragHandler(svg.selectAll("svg"));
 }
 
 function create_koi(pesce){
@@ -115,8 +115,7 @@ function create_koi(pesce){
         .attr("stroke", 1)
         .attr("id", "koi")
 
-        d3.selectAll("rect").raise()
-        d3.selectAll("#rect1").attr("fill", "blue")
+        d3.selectAll("svg").raise()
 }
 
 function prova(){
