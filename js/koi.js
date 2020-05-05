@@ -1,6 +1,6 @@
 function get_coordinate(name, coordinate){
     var p = d3.select(`#${name}`);
-    var c = parseFloat(p.attr(coordinate)) + (parseFloat(p.attr("width") / 2))
+    var c = parseInt(p.attr(coordinate)) + (parseInt(p.attr("width") / 2))
     return c
 }
 
@@ -51,8 +51,8 @@ function create_leaves(dataset) {
         .data(dataset)
         .enter()
         .append("svg")
-        .attr("x", function() { return scale(Math.random())} )
-        .attr("y", function() { return scale(Math.random())} )
+        .attr("x", function() { return parseInt(scale(Math.random()))} )
+        .attr("y", function() { return parseInt(scale(Math.random()))} )
         .attr("id", function(d) { return d.id })
         .attr("width", function(d) { return d.w})
         .attr("height", function(d) { return d.w})
