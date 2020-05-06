@@ -2,7 +2,7 @@ koi1 = "M28.958,17.3c-1.453-.248-2.28.269-2.313-2.075a1.772,1.772,0,0,0-1.222-1.
 koi2 = "M30.789,14.971c-0.759,1.287-.581,2.257-2.764,1.444-1.248-.465-3.2-2.885-3.2-2.885l-0.1.216c-0.487,2.12-3.458,6.893-3.458,6.893l-0.007.145a9.6,9.6,0,0,1,2.061,4.6c0.2,2.517-1.689-.752-1.926-1.511a13.685,13.685,0,0,1-.3-2.01c-0.076-.767-0.137.674-0.163,0.824,0,0-.5,4.6,1.361,6.448s5.315,5.025,5.02,7.913-3.7-1.649-5.794-1.008c-2.175.272-3.451,5.809-4.887,3.291s0.438-6.833,1.389-9.283S16.655,23.6,16.655,23.6c-0.084-.126-0.721-1.418-0.481-0.686a13.659,13.659,0,0,1,.537,1.96c0.09,0.79-.312,4.549-1.149,2.168A9.631,9.631,0,0,1,15.585,22l-0.065-.13s-0.752-6-1.239-8.12l-0.1-.216s-1.955,2.42-3.2,2.885c-2.183.813-2.005-.157-2.764-1.444s0.922-3.292,2.764-2.888a10.751,10.751,0,0,0,2.969.137,4.534,4.534,0,0,0-.088-0.788C11.708-.738,19.5,0,19.5,0s7.792-.738,5.643,11.432a4.534,4.534,0,0,0-.088.788,10.751,10.751,0,0,0,2.969-.137C29.867,11.679,31.548,13.684,30.789,14.971Z"
 leaf = "M10.306,52.037C7.191,41.872,3.188,32.782,8.245,20.926,17.655-1.14,41.66,2.046,47.407,2.259S51.53,29.222,51.53,29.222C59.889,13.884,65.958,8.481,65.958,8.481c12.858,4.888,19.7,36.493,8.245,49.778S41.053,73.882,28.857,72.778,0,79,0,79c1.013-.757,3.661-4.761,6.184-8.3C11.359,63.449,10.5,52.673,10.306,52.037ZM48,37c1.839-1.616-6.222,5.853-17,16-5.62,5.29-11.85,11-18,17M40,31s-3.111-7.8-5-13M31,37L23,26M20,53l-2-4M32,62l11,3m1-18,18,4"
 
-function get_coordinate(name, coordinate){
+function get_center_coordinate(name, coordinate){
     var p = d3.select(`#${name}`);
     var c = parseInt(p.attr(coordinate)) + (parseInt(p.attr("width") / 2))
 
@@ -12,34 +12,84 @@ function get_coordinate(name, coordinate){
     return c
 }
 
+function get_coordinate(name, coordinate){
+    var p = d3.select(`#${name}`);
+    var c = parseInt(p.attr(coordinate))
+    return c
+}
 function move_koi(){
     var mid_leaf1 = "leaf" + sequences[current_sequence][1]
     var mid_leaf2 = "leaf" + sequences[current_sequence][2]
     var new_leaf = "leaf" + sequences[current_sequence][3]
 
-    var new_cx1 = get_coordinate(mid_leaf1, "x") 
-    var new_cy1 = get_coordinate(mid_leaf1, "y")
-    var new_cx2 = get_coordinate(mid_leaf2, "x")
-    var new_cy2 = get_coordinate(mid_leaf2, "y")
-    var new_cx3 = get_coordinate(new_leaf, "x")
-    var new_cy3 = get_coordinate(new_leaf, "y")
+    new_x1 = get_center_coordinate(mid_leaf1, "x") 
+    new_y1 = get_center_coordinate(mid_leaf1, "y")
+    new_x2 = get_center_coordinate(mid_leaf2, "x")
+    new_y2 = get_center_coordinate(mid_leaf2, "y")
+    new_x3 = get_center_coordinate(new_leaf, "x")
+    new_y3 = get_center_coordinate(new_leaf, "y")
+
+    // var new_x1 = get_coordinate(mid_leaf1, "x") 
+    // var new_y1 = get_coordinate(mid_leaf1, "y")
+    // var new_x2 = get_coordinate(mid_leaf2, "x")
+    // var new_y2 = get_coordinate(mid_leaf2, "y")
+    // var new_x3 = get_coordinate(new_leaf, "x")
+    // var new_y3 = get_coordinate(new_leaf, "y")
     
-    d3.select("#koi")
+    koi = d3.select("#koi")
+    koi_w = parseInt(koi.attr("width"))/2
+    koi_x = parseInt(koi.attr("x")) + koi_w
+    koi_y = parseInt(koi.attr("y"))
+
+    angle1 = get_angle(koi_x, koi_y, new_x1, new_y1);
+    angle2 = get_angle(new_x1, new_y1, new_x2, new_y2);
+    angle3 = get_angle(new_x2,new_y2,new_x3,new_y3);
+
+    rotation1 = d3.transform().rotate(angle1,20,20);
+    rotation2 = d3.transform().rotate(angle2,20,20);
+    rotation3 = d3.transform().rotate(angle3,20,20);
+
+    koi.select("path")
+        .attr("transform", "")
+        .transition()
+        .duration(300)
+        .delay(100)
+        .attr("transform", rotation1)
+    koi
         .transition()
         .duration(750)
-        .delay(100)
-        .attr("x",new_cx1)
-        .attr("y",new_cy1)
-        .transition()
-        .duration(750)
-        .delay(100)
-        .attr("x",new_cx2)
-        .attr("y",new_cy2)
-        .transition()
-        .duration(750)
-        .delay(100)
-        .attr("x",new_cx3)
-        .attr("y",new_cy3)
+        .delay(400)
+        .attr("x",new_x1)
+        .attr("y",new_y1)
+        .on("end", function(){
+            koi.select("path")
+                .attr("transform", "")
+                .transition()
+                .duration(300)
+                .delay(100)
+                .attr("transform", rotation2)
+                koi
+                .transition()
+                .duration(750)
+                .delay(400)
+                .attr("x",new_x2)
+                .attr("y",new_y2)
+                .on("end", function(){
+                    koi.select("path")
+                        .attr("transform", "")
+                        .transition()
+                        .duration(300)
+                        .delay(100)
+                        .attr("transform", rotation3)
+                        koi
+                        .transition()
+                        .duration(750)
+                        .delay(400)
+                        .attr("x",new_x3)
+                        .attr("y",new_y3)
+                })
+        })
+
     
     if(current_sequence == sequences.length-1){
         current_sequence=0;
@@ -47,6 +97,19 @@ function move_koi(){
         current_sequence++;
     }
 }
+
+function get_angle(x, y, x1, y1) {
+    var dy = y1 - y;
+    var dx = x - x1;
+    var angle = Math.atan2(dy, dx);
+    if (angle < 0) {
+        res = Math.abs(angle);
+    }
+    else {
+        res = 2 * Math.PI - angle;
+    }
+    return res * 180 / Math.PI;
+} Math.PI
 
 function create_leaves(dataset) {
     var svg = d3.select("svg");
@@ -117,14 +180,14 @@ function create_koi(pesce){
         .data(pesce)
         .enter()
         .append("svg")
-        .attr("x", function(d) { 
-            return get_coordinate(d.start, "x")
-        })
-        .attr("y", function(d) { 
-            return get_coordinate(d.start, "y")
-        })
         .attr("width", function(d) { return d.w})
         .attr("height", function(d) { return d.w})
+        .attr("x", function(d) { 
+            return get_center_coordinate(d.start, "x")
+        })
+        .attr("y", function(d) { 
+            return get_center_coordinate(d.start, "y")
+        })
         .attr("fill", "blue")
         .attr("id", "koi")
         .append("path")
