@@ -132,7 +132,7 @@ function create_leaves(dataset) {
             var current_leaf = "leaf" + sequences[current_sequence][0]
 
             if(d3.select(this).attr("id") == current_leaf){
-                console.log(sequences[current_sequence])
+                //console.log(sequences[current_sequence])
                 move_koi()
             }
         })
@@ -167,7 +167,7 @@ function create_koi(pesce){
     var y = 100
     console.log("x = " + x)
     console.log("y = " + y)
-    svg.selectAll("pippo")
+    svg.selectAll("koi")
         .data(pesce)
         .enter()
         .append("svg")
@@ -182,11 +182,11 @@ function create_koi(pesce){
         .attr("fill", "blue")
         .attr("id", "koi")
         .append("path")
-        //.attr("class", "koi")
+        .attr("class", "koi")
         .attr("fill", "black")
         .attr("d", koi1)
 
-        d3.selectAll("#leaf1").append("rect").attr("width", 20).attr("height", 20).attr("fill", "blue")
+        // d3.selectAll("#leaf1").append("rect").attr("width", 20).attr("height", 20).attr("fill", "blue")
         d3.selectAll("svg.leaf").raise()
 }
 
