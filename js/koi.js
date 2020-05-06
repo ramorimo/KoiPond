@@ -7,7 +7,7 @@ function get_center_coordinate(name, coordinate){
     var c = parseInt(p.attr(coordinate)) + (parseInt(p.attr("width") / 2))
 
     if(coordinate == "y")
-        return c - 10
+        return c - 15
 
     return c
 }
@@ -28,13 +28,6 @@ function move_koi(){
     new_y2 = get_center_coordinate(mid_leaf2, "y")
     new_x3 = get_center_coordinate(new_leaf, "x")
     new_y3 = get_center_coordinate(new_leaf, "y")
-
-    // var new_x1 = get_coordinate(mid_leaf1, "x") 
-    // var new_y1 = get_coordinate(mid_leaf1, "y")
-    // var new_x2 = get_coordinate(mid_leaf2, "x")
-    // var new_y2 = get_coordinate(mid_leaf2, "y")
-    // var new_x3 = get_coordinate(new_leaf, "x")
-    // var new_y3 = get_coordinate(new_leaf, "y")
     
     koi = d3.select("#koi")
     koi_w = parseInt(koi.attr("width"))/2
@@ -50,7 +43,6 @@ function move_koi(){
     rotation3 = d3.transform().rotate(angle3,20,20);
 
     koi.select("path")
-        .attr("transform", "")
         .transition()
         .duration(300)
         .delay(100)
@@ -63,7 +55,6 @@ function move_koi(){
         .attr("y",new_y1)
         .on("end", function(){
             koi.select("path")
-                .attr("transform", "")
                 .transition()
                 .duration(300)
                 .delay(100)
@@ -76,7 +67,6 @@ function move_koi(){
                 .attr("y",new_y2)
                 .on("end", function(){
                     koi.select("path")
-                        .attr("transform", "")
                         .transition()
                         .duration(300)
                         .delay(100)
@@ -87,6 +77,7 @@ function move_koi(){
                         .delay(400)
                         .attr("x",new_x3)
                         .attr("y",new_y3)
+                        .attr("transform", "")
                 })
         })
 
@@ -108,8 +99,8 @@ function get_angle(x, y, x1, y1) {
     else {
         res = 2 * Math.PI - angle;
     }
-    return res * 180 / Math.PI;
-} Math.PI
+    return res * 180 / Math.PI - 90;
+}
 
 function create_leaves(dataset) {
     var svg = d3.select("svg");
