@@ -203,7 +203,7 @@ function animateKoi(){
     }
 }
 
-function prova(){
+function play(){
     d3.select("body").append("svg")
         .attr("width", 700)
         .attr("height", 700)
