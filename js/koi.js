@@ -80,7 +80,9 @@ function move_koi(){
                         .delay(400)
                         .attr("x",new_x3)
                         .attr("y",new_y3)
-                        .attr("transform", "")
+
+                koi.select("path")
+                .attr("transform", "")
                 })
         })
 
