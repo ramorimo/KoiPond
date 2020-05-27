@@ -207,27 +207,6 @@ function create_koi(pesce){
         d3.selectAll(".leaf").raise()
 }
 
-function animateKoi(){
-    var koi = d3.select(".koi");
-
-    if(koi.attr("frame") == "koi1"){
-        d3.xml('data/svg/koi 2.svg')
-        .then(data => {
-            koi.select("svg").remove()
-            koi.node().append(data.documentElement)
-        })
-        koi.attr("frame", "koi2")
-    }
-    else {
-        d3.xml('data/svg/koi 1.svg')
-        .then(data => {
-            koi.select("svg").remove()
-            koi.node().append(data.documentElement)
-        })
-        koi.attr("frame", "koi1")
-    }
-}
-
 function play(){
     d3.select("body").append("svg")
         .attr("width", canvas_width)
@@ -242,10 +221,5 @@ function play(){
             create_leaves(pesce.leaves)
             //Creazione del pesce
             create_koi(pesce.koi)
-
-            setInterval(function () {
-                animateKoi()
-            }, 150);
         })
-    
 }
