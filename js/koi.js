@@ -6,9 +6,10 @@ function get_center_coordinate(name, coordinate){
     var p = d3.select(`#${name}`);
     var c = parseInt(p.attr(coordinate)) + (parseInt(p.attr("width") / 2))
 
+    if(coordinate == "x")
+        return c - 20
     if(coordinate == "y")
-        return c - 15
-
+        return c - 25
     return c
 }
 
@@ -112,16 +113,21 @@ function create_leaves(dataset) {
     svg.selectAll(".leaf")
         .data(dataset)
         .enter()
-        .append("svg")
+        .append("g")
         .attr("class", "leaf")
+        .append("svg")
+        .attr("id", function(d) { return d.id })
         .attr("x", function() { return parseInt(scale(Math.random()))} )
         .attr("y", function() { return parseInt(scale(Math.random()))} )
-        .attr("id", function(d) { return d.id })
         .attr("width", function(d) { return d.w})
         .attr("height", function(d) { return d.w})
-        .append("path")
-        .attr("class", "leaf")
-        .attr("d", leaf)
+
+        d3.xml('data/svg/leaf.svg')
+        .then(data => {
+            svg.selectAll(".leaf").select("svg").nodes().forEach(n => {
+                n.append(data.documentElement.cloneNode(true))
+            })
+        })
 
     var dragHandler = d3.drag()
         .on("start", function () {
@@ -187,7 +193,7 @@ function create_koi(pesce){
         .attr("d", koi1)
 
         // d3.selectAll("#leaf1").append("rect").attr("width", 20).attr("height", 20).attr("fill", "blue")
-        d3.selectAll("svg.leaf").raise()
+        d3.selectAll(".leaf").raise()
 }
 
 function prova(){
