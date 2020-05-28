@@ -217,7 +217,7 @@ function play(){
         .attr("height", canvas_height)
         .attr("style", "background-color:skyblue")
 
-    d3.json("/data/koi.json")
+    d3.json("data/koi.json")
         .then(function(pesce){
             sequences = pesce.koi[0].sequences
             current_sequence = 0
