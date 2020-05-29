@@ -203,12 +203,33 @@ function create_koi(pesce){
         .attr("height", function(d) { return d.h})
         .attr("class", "koi")
 
-        d3.xml('data/svg/koi 1.svg')
-        .then(data => {
-            d3.select(".koi").node().append(data.documentElement)
+        Promise.all([
+            d3.xml('data/svg/koi 1.svg'),
+            d3.xml('data/svg/koi 2.svg')
+          ])
+        .then(([koi1, koi2]) => {
+            var koi = d3.select(".koi")
+            koi.node().append(koi1.documentElement)
+            koi.node().append(koi2.documentElement)
+
+            d3.select("#koi1").attr("visibility", "visible")
+            d3.select("#koi2").attr("visibility", "hidden")
         })
 
         d3.selectAll(".leaf").raise()
+}
+
+function animateKoi(){
+    var koi1 = d3.select("#koi1")
+    var koi2 = d3.select("#koi2")
+    if(koi1.attr("visibility") == "visible"){
+        koi1.attr("visibility","hidden")
+        koi2.attr("visibility", "visible")
+    }
+    else {
+        koi2.attr("visibility","hidden")
+        koi1.attr("visibility", "visible")
+    }
 }
 
 function play(){
@@ -225,5 +246,9 @@ function play(){
             create_leaves(pesce.leaves)
             //Creazione del pesce
             create_koi(pesce.koi)
+
+            setInterval(function () {
+                animateKoi()
+            }, 150);
         })
 }
