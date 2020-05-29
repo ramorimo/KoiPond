@@ -1,4 +1,4 @@
-const canvas_width = 800
+const canvas_width  = 800
 const canvas_height = 600
 
 const leaf_padding_x = 88
@@ -32,8 +32,9 @@ function move_koi(){
     new_x3 = get_center_coordinate(new_leaf, "x")
     new_y3 = get_center_coordinate(new_leaf, "y")
     
-    koi = d3.select("#koi").select("svg")
+    koi = d3.select("#koi")
     koi_w = parseInt(koi.attr("width"))/2
+    koi_h = parseInt(koi.attr("height"))/2
     koi_x = parseInt(koi.attr("x")) + koi_w
     koi_y = parseInt(koi.attr("y"))
 
@@ -48,8 +49,8 @@ function move_koi(){
     rotation2 = d3.transform().rotate(angle2,20,20);
     rotation3 = d3.transform().rotate(angle3,20,20);
 
-    koi.select("svg").select("path")
-        .transition()
+    koi.selectAll("path")
+    .transition()
         .duration(300)
         .delay(100)
         .attr("transform", rotation1)
@@ -59,7 +60,7 @@ function move_koi(){
                 .attr("x",new_x1)
                 .attr("y",new_y1)
                 .on("end", function(){
-                    koi.select("svg").select("path")
+                    koi.selectAll("path")
                         .transition()
                         .duration(300)
                         .attr("transform", rotation2)
@@ -69,7 +70,7 @@ function move_koi(){
                         .attr("x",new_x2)
                         .attr("y",new_y2)
                         .on("end", function(){
-                            koi.select("svg").select("path")
+                            koi.selectAll("path")
                                 .transition()
                                 .duration(300)
                                 .attr("transform", rotation3)
@@ -79,7 +80,7 @@ function move_koi(){
                                     .attr("x",new_x3)
                                     .attr("y",new_y3)
                                     .on("end", function(){
-                                        koi.select("svg").select("path")
+                                        koi.selectAll("path")
                                         .transition()
                                         .duration(300)
                                         .attr("transform", "")
@@ -186,12 +187,11 @@ function create_koi(pesce){
     var y = 100
     console.log("x = " + x)
     console.log("y = " + y)
-    koi = svg.selectAll("koi")
+    svg.selectAll("koi")
         .data(pesce)
         .enter()
-        .append("g")
-        .attr("id", "koi")
         .append("svg")
+        .attr("id", "koi")
         .attr("x", function(d) { 
             return get_center_coordinate(d.start, "x")
         })
