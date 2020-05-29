@@ -1,8 +1,5 @@
-const canvas_width  = 800
-const canvas_height = 600
-
-const leaf_padding_x = 88
-const leaf_padding_y = -100
+const canvas_width  = window.innerWidth
+const canvas_height = window.innerHeight
 
 function get_center_coordinate(name, coordinate){
     var p = d3.select(`#${name}`);
@@ -115,11 +112,11 @@ function create_leaves(dataset) {
 
     var x_scale = d3.scaleLinear()
     x_scale.domain([0,1])
-    x_scale.range([0, canvas_width - dataset[0].w + leaf_padding_x])
+    x_scale.range([0, canvas_width - dataset[0].w ])
 
     var y_scale = d3.scaleLinear()
     y_scale.domain([0,1])
-    y_scale.range([0, svg.attr("height") - dataset[0].w - leaf_padding_y ])
+    y_scale.range([0, svg.attr("height") - dataset[0].w ])
     
     svg.selectAll(".leaf")
         .data(dataset)
@@ -158,18 +155,19 @@ function create_leaves(dataset) {
             var y = d3.event.y + deltaY
             var w = parseFloat(d3.select(this).attr("width"));
             var width = canvas_width
+            var height = canvas_height
 
             //Constraint the leaves to the canvas
             if(x < 0){
                 x = 0
-            }else if(x + w - leaf_padding_x > width){
+            }else if(x + w > width){
                 x = width - w + leaf_padding_x
             }
 
             if(y < 0){
                 y = 0
-            }else if(y + w - leaf_padding_y > width){
-                y = width - w + leaf_padding_y
+            }else if(y + w > height){
+                y = height - w + leaf_padding_y
             }
 
             d3.select(this)
