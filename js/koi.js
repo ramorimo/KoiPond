@@ -9,9 +9,9 @@ function get_center_coordinate(name, coordinate){
     var c = parseInt(p.attr(coordinate)) + (parseInt(p.attr("width") / 2))
 
     if(coordinate == "x")
-        return c - 60
+        return c - 20
     if(coordinate == "y")
-        return c - 80
+        return c - 35
     return c
 }
 
