@@ -42,9 +42,6 @@ function move_koi(){
     angle2 = get_angle(new_x1, new_y1, new_x2, new_y2);
     angle3 = get_angle(new_x2,new_y2,new_x3,new_y3);
 
-    // console.log(koi)
-    // console.log(angle1 + " " + angle2 + " " +  angle3)
-
     rotation1 = d3.transform().rotate(angle1,20,20);
     rotation2 = d3.transform().rotate(angle2,20,20);
     rotation3 = d3.transform().rotate(angle3,20,20);
@@ -161,6 +158,8 @@ function create_leaves(dataset) {
             var y = d3.event.y + deltaY
             var w = parseFloat(d3.select(this).attr("width"));
             var width = canvas_width
+
+            //Constraint the leaves to the canvas
             if(x < 0){
                 x = 0
             }else if(x + w - leaf_padding_x > width){
@@ -178,15 +177,13 @@ function create_leaves(dataset) {
                 .attr("y", y);
         });
     
+    //Add the drag and drop handler to all leaves
     dragHandler(svg.selectAll("svg"));
 }
 
 function create_koi(pesce){
     var svg = d3.select("svg");
-    var x = 100
-    var y = 100
-    console.log("x = " + x)
-    console.log("y = " + y)
+    
     svg.selectAll("koi")
         .data(pesce)
         .enter()
@@ -203,6 +200,7 @@ function create_koi(pesce){
         .attr("height", function(d) { return d.h})
         .attr("class", "koi")
 
+        //Load both the SVGs needed to animate the koi
         Promise.all([
             d3.xml('data/svg/koi 1.svg'),
             d3.xml('data/svg/koi 2.svg')
@@ -216,12 +214,13 @@ function create_koi(pesce){
             d3.select("#koi2").attr("visibility", "hidden")
         })
 
-        // d3.selectAll(".leaf").raise()
+        d3.selectAll(".leaf").raise()
 }
 
 function animateKoi(){
     var koi1 = d3.select("#koi1")
     var koi2 = d3.select("#koi2")
+
     if(koi1.attr("visibility") == "visible"){
         koi1.attr("visibility","hidden")
         koi2.attr("visibility", "visible")
@@ -233,6 +232,7 @@ function animateKoi(){
 }
 
 function play(){
+    //Create an svg canvas
     d3.select("body").append("svg")
         .attr("width", canvas_width)
         .attr("height", canvas_height)
@@ -242,11 +242,12 @@ function play(){
         .then(function(pesce){
             sequences = pesce.koi[0].sequences
             current_sequence = 0
-            //Creazione delle foglie trascinabili
+            //Create and draw the leaves
             create_leaves(pesce.leaves)
-            //Creazione del pesce
+            //Create and draw the koi
             create_koi(pesce.koi)
 
+            //Change koi's sprite to animate It
             setInterval(function () {
                 animateKoi()
             }, 150);
