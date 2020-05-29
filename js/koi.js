@@ -51,12 +51,12 @@ function move_koi(){
 
     koi.selectAll("path")
     .transition()
-        .duration(300)
-        .delay(100)
+        .duration(500)
+        .delay(200)
         .attr("transform", rotation1)
         .on("end", function(){
             koi.transition()
-                .duration(500)
+                .duration(750)
                 .attr("x",new_x1)
                 .attr("y",new_y1)
                 .on("end", function(){
@@ -66,7 +66,7 @@ function move_koi(){
                         .attr("transform", rotation2)
                         .on("end", function(){
                             koi.transition()
-                        .duration(500)
+                        .duration(750)
                         .attr("x",new_x2)
                         .attr("y",new_y2)
                         .on("end", function(){
@@ -76,7 +76,7 @@ function move_koi(){
                                 .attr("transform", rotation3)
                                 .on("end", function(){
                                     koi.transition()
-                                    .duration(500)
+                                    .duration(750)
                                     .attr("x",new_x3)
                                     .attr("y",new_y3)
                                     .on("end", function(){
@@ -216,7 +216,7 @@ function create_koi(pesce){
             d3.select("#koi2").attr("visibility", "hidden")
         })
 
-        d3.selectAll(".leaf").raise()
+        // d3.selectAll(".leaf").raise()
 }
 
 function animateKoi(){
